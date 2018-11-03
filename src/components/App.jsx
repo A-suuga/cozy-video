@@ -8,6 +8,7 @@ import Todos from './Todos'
 import Hello1 from './HelloViews/Hello1'
 import Hello2 from './HelloViews/Hello2'
 import Videos from './Videos'
+import VideoViewer from './VideoViewer'
 
 const App = () => (
   <HashRouter>
@@ -20,6 +21,7 @@ const App = () => (
             <Route path="/viewhello1" component={Hello1} />
             <Route path="/viewhello2" component={Hello2} />
             <Route path="/videos" component={Videos} />
+            <Route path="/watch/:manifestId" component={VideoViewer} />
             <Redirect from="/" to="/todos" />
             <Redirect from="*" to="/todos" />
           </Switch>

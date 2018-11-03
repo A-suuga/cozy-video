@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export const VideosList = props => {
   const { videos } = props
@@ -10,6 +11,7 @@ export const VideosList = props => {
         {videos.map(video => (
           <li key={video._id} className="todo-item">
             <span>{video.name}</span>
+            <Link to={`/watch/${video._id}`}>Watch</Link>
           </li>
         ))}
       </ul>
