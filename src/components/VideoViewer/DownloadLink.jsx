@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Player from './Player'
 
 export default class DownloadLink extends Component {
   constructor(props, context) {
@@ -37,6 +38,7 @@ export default class DownloadLink extends Component {
     return (
       <div>
         <h3>Watching Video with dlLink {this.state.dlLink}</h3>
+        <Player manifestUri={this.state.dlLink} />
       </div>
     )
   }

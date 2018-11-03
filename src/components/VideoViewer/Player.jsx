@@ -1,0 +1,93 @@
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import shaka from 'shaka-player'
+
+export default class Player extends Component {
+  constructor(props, context) {
+    super(props, context)
+    // TODO remove 'http:' properly
+    this.manifestUri = props.manifestUri.slice(5)
+    const { client } = context
+    if (!props.manifestUri) {
+      throw new Error('Empty Manifest Uri')
+    }
+    if (!context.client) {
+      throw new Error(
+        'Should be used with client in context (use CozyProvider to set context'
+      )
+    }
+
+    this.client = client
+  }
+
+  componentDidMount() {
+    // Install built-in polyfills to patch browser incompatibilities.
+    shaka.polyfill.installAll()
+    // Check to see if the browser supports the basic APIs Shaka needs.
+    if (shaka.Player.isBrowserSupported()) {
+      // Everything looks good!
+      this.initPlayer()
+    }
+  }
+
+  initPlayer() {
+    const token = this.client.getClient().token
+    // TODO Remove 'http://' properly
+    const uri = this.client.getClient().uri.slice(7)
+    const cozyInfo = {
+      domain: uri,
+      token: token.token
+    }
+    var player = new shaka.Player(cozyInfo, this.video)
+    // Listen for error events.
+    player.addEventListener('error', this.onErrorEvent)
+
+    // Player configuration
+    player.configure('preferredAudioLanguage', 'en')
+    player.configure('preferredTextLanguage', 'fr')
+    player.configure('streaming.alwaysStreamText', true)
+
+    // Try to load a manifest.
+    // This is an asynchronous process.
+    player.load(this.manifestUri).catch(this.onError) // onError is executed if the asynchronous load fails.
+  }
+
+  onErrorEvent(event) {
+    // Extract the shaka.util.Error object from the event.
+    this.onError(event.detail)
+  }
+
+  // onError(error) {
+  //   // Log the error.
+  //   console.error('Error code', error.code, 'object', error);
+  // }
+
+  componentWillUnmount() {
+    // unmount stuff
+    // kill stream hogging...:)
+  }
+
+  render() {
+    return (
+      <div>
+        <h2>Player</h2>
+        <video
+          ref={c => {
+            this.video = c
+          }}
+          width="640"
+          controls
+        />
+      </div>
+    )
+  }
+}
+
+Player.contextTypes = {
+  client: PropTypes.object,
+  store: PropTypes.object
+}
+
+Player.propTypes = {
+  manifestUri: PropTypes.string
+}
