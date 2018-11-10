@@ -73,7 +73,7 @@ class Player extends Component {
         ref={c => {
           this.video = c
         }}
-        width="640"
+        className="vid-player"
         controls
       />
     )
