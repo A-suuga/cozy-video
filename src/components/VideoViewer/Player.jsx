@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import shaka from 'shaka-player'
 
-export default class Player extends Component {
+class Player extends Component {
   constructor(props, context) {
     super(props, context)
     // TODO remove 'http:' properly
@@ -13,7 +13,7 @@ export default class Player extends Component {
     }
     if (!context.client) {
       throw new Error(
-        'Should be used with client in context (use CozyProvider to set context'
+        'Should be used with client in context (use CozyProvider to set context)'
       )
     }
 
@@ -69,16 +69,13 @@ export default class Player extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Player</h2>
-        <video
-          ref={c => {
-            this.video = c
-          }}
-          width="640"
-          controls
-        />
-      </div>
+      <video
+        ref={c => {
+          this.video = c
+        }}
+        width="640"
+        controls
+      />
     )
   }
 }
@@ -91,3 +88,5 @@ Player.contextTypes = {
 Player.propTypes = {
   manifestUri: PropTypes.string
 }
+
+export default Player

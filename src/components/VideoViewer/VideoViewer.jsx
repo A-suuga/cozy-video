@@ -1,29 +1,69 @@
-import React from 'react'
-import DownloadLink from './DownloadLink'
-// import { Query } from 'cozy-client'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-// export const VideoViewer = () => {
-//   const query = client =>
-//     client
-//       .collection('io.cozy.files')
-//       .getDownloadLinkById('57064943d15f2a69385dfee00000a878')
-//   return (
-//     <Query query={query}>
-//       {({ fetchStatus }) => (
-//         <div>
-//           {fetchStatus !== 'loaded' ? (
-//             <h1>Fetching manifest uri...</h1>
-//           ) : (
-//             <h3>Watching Video with fileId ...</h3>
-//           )}
-//         </div>
-//       )}
-//     </Query>
-//   )
-//
+import Spinner from 'cozy-ui/react/Spinner'
 
-export const VideoViewer = ({ match }) => {
-  return <DownloadLink fileId={match.params.manifestId} />
+import Player from './Player'
+
+class VideoViewer extends Component {
+  constructor(props, context) {
+    super(props, context)
+    const { client } = context
+    if (!context.client) {
+      throw new Error(
+        'Should be used with client in context (use CozyProvider to set context)'
+      )
+    }
+    this.client = client
+    this.manifestId = props.match.params.manifestId
+    this.state = { videoName: null, manifestLink: null }
+  }
+
+  componentDidMount() {
+    // Get the name of the manifest as the name of the video
+    this.videoName = this.client
+      .collection('io.cozy.files')
+      .statById(this.manifestId)
+      .then(resp => {
+        this.setState({
+          videoName: resp.data.name
+        })
+      })
+
+    // Get the download link of the manifest
+    this.manifestLink = this.client
+      .collection('io.cozy.files')
+      .getDownloadLinkById(this.manifestId)
+      .then(resp => {
+        this.setState({
+          manifestLink: resp
+        })
+      })
+  }
+
+  render() {
+    return (
+      <div>
+        {this.state.videoName !== null && this.state.manifestLink !== null ? (
+          <div>
+            <h2>{this.state.videoName}</h2>
+            <Player manifestUri={this.state.manifestLink} />
+          </div>
+        ) : (
+          <Spinner size="xxlarge" middle />
+        )}
+      </div>
+    )
+  }
+}
+
+VideoViewer.contextTypes = {
+  client: PropTypes.object,
+  store: PropTypes.object
+}
+
+VideoViewer.propTypes = {
+  match: PropTypes.object
 }
 
 export default VideoViewer

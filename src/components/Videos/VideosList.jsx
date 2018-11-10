@@ -1,17 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export const VideosList = props => {
+const VideosList = props => {
   const { videos } = props
   if (!videos || !videos.length) return null
   return (
     <div>
-      <h2>Videos list:</h2>
-      <ul className="todos-list">
+      <h2>Library</h2>
+      <ul className="vid-list-table">
         {videos.map(video => (
-          <li key={video._id} className="todo-item">
-            <span>{video.name}</span>
-            <Link to={`/watch/${video._id}`}>Watch</Link>
+          <li key={video._id} className="vid-list-row">
+            <Link to={`/watch/${video._id}`} className="c-nav-link">
+              {video.name}
+            </Link>
           </li>
         ))}
       </ul>
