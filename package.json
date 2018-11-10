@@ -17,7 +17,8 @@
     "deploy": "git-directory-deploy --directory build/ --branch ${DEPLOY_BRANCH:-build} --repo=${DEPLOY_REPOSITORY:-https://$GITHUB_TOKEN@github.com/Asuuga/cozy-video.git}",
     "pretest": "yarn lint",
     "test": "cozy-scripts test --verbose --coverage",
-    "cozyPublish": "git fetch origin ${DEPLOY_BRANCH:-build}:${DEPLOY_BRANCH:-build} && cozy-scripts publish --token $REGISTRY_TOKEN --build-commit $(git rev-parse ${DEPLOY_BRANCH:-build})"
+    "cozyPublish": "git fetch origin ${DEPLOY_BRANCH:-build}:${DEPLOY_BRANCH:-build} && cozy-scripts publish --token $REGISTRY_TOKEN --build-commit $(git rev-parse ${DEPLOY_BRANCH:-build})",
+    "buildShaka": "if [ ! -d  'node_modules/shaka-player/dist' ]; then mkdir 'node_modules/shaka-player/dist'; fi; python node_modules/shaka-player/build/build.py --nodemo +@complete -@offline"
   },
   "repository": {
     "type": "git",
@@ -47,12 +48,12 @@
   "dependencies": {
     "cozy-bar": "6.3.1",
     "cozy-client": "2.23.0",
+    "cozy-scripts": "1.0.1",
     "cozy-ui": "11.3.0",
     "eslint-config-cozy-app": "1.1.3",
     "react": "16.5.2",
     "react-dom": "16.5.2",
     "react-router-dom": "4.3.1",
-    "cozy-scripts": "1.0.1",
-    "shaka-player": "file:/run/media/arthur/external/Programmation/cozy/myvanillacozyapp/scripts/shaka-player/"
+    "shaka-player": "A-suuga/shaka-player#cozy"
   }
 }
