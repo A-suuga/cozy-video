@@ -4,9 +4,6 @@ import { Route, Switch, Redirect, HashRouter } from 'react-router-dom'
 import { Layout, Main, Content } from 'cozy-ui/react/Layout'
 
 import Sidebar from './Sidebar'
-import Todos from './Todos'
-import Hello1 from './HelloViews/Hello1'
-import Hello2 from './HelloViews/Hello2'
 import Videos from './Videos'
 import VideoViewer from './VideoViewer'
 
@@ -17,13 +14,10 @@ const App = () => (
       <Main>
         <Content className="app-content">
           <Switch>
-            <Route path="/todos" component={Todos} />
-            <Route path="/viewhello1" component={Hello1} />
-            <Route path="/viewhello2" component={Hello2} />
             <Route path="/videos" component={Videos} />
             <Route path="/watch/:manifestId" component={VideoViewer} />
-            <Redirect from="/" to="/todos" />
-            <Redirect from="*" to="/todos" />
+            <Redirect from="/" to="/videos" />
+            <Redirect from="*" to="/videos" />
           </Switch>
         </Content>
       </Main>
