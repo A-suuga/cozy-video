@@ -6,9 +6,9 @@
   "version": "0.1.0",
   "licence": "AGPL-3.0",
   "editor": "",
-  "source": "https://github.com/Asuuga/cozy-video.git@build",
+  "source": "https://github.com/A-suuga/cozy-video.git@build",
   "developer": {
-    "name": "Asuuga",
+    "name": "A-suuga",
     "url": ""
   },
   "routes": {
@@ -24,13 +24,10 @@
       "type": "io.cozy.apps",
       "verbs": ["GET"]
     },
-    "mocks todos": {
-      "description": "TO REMOVE: only used as demonstration about Cozy App data interactions",
-      "type": "io.mocks.todos"
-    },
     "files": {
       "description": "Required to read video files",
-      "type": "io.cozy.files"
+      "type": "io.cozy.files",
+      "verbs": ["GET"]
     }
   }
 }
