@@ -1,7 +1,7 @@
 import { FILES_DOCTYPE } from './videos'
 
 // the documents schema, necessary for CozyClient
-export default {
+export const schema = {
   files: { doctype: FILES_DOCTYPE }
 }
 

@@ -15,7 +15,7 @@ class VideoViewer extends Component {
       )
     }
     this.client = client
-    this.manifestId = props.match.params.manifestId
+    this.manifestId = props.routeParams.manifestId
     this.state = { videoName: null, manifestLink: null }
   }
 
@@ -63,7 +63,7 @@ VideoViewer.contextTypes = {
 }
 
 VideoViewer.propTypes = {
-  match: PropTypes.object
+  routeParams: PropTypes.object
 }
 
 export default VideoViewer

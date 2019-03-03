@@ -1,34 +1,28 @@
+/* global */
+
 import React from 'react'
-import { hot } from 'react-hot-loader'
-import { Route, Switch, Redirect, HashRouter } from 'react-router-dom'
-import { Layout, Main, Content } from 'cozy-ui/react/Layout'
+import { Layout, Main, Content, Sidebar } from 'cozy-ui/react'
+import { Route, Redirect } from 'react-router'
 
-import Sidebar from './Sidebar'
-import Videos from './Videos'
-import VideoViewer from './VideoViewer'
+import Nav from 'components/Nav'
+import Videos from 'components/Videos'
+import VideoViewer from 'components/VideoViewer'
 
-const App = () => (
-  <HashRouter>
-    <Layout>
-      <Sidebar />
-      <Main>
-        <Content className="app-content">
-          <Switch>
-            <Route path="/videos" component={Videos} />
-            <Route path="/watch/:manifestId" component={VideoViewer} />
-            <Redirect from="/" to="/videos" />
-            <Redirect from="*" to="/videos" />
-          </Switch>
-        </Content>
-      </Main>
-    </Layout>
-  </HashRouter>
+const App = (
+  <Layout>
+    <Sidebar>
+      <Nav />
+    </Sidebar>
+
+    <Main>
+      <Content className="app-content">
+        <Route path="/videos" component={Videos} />
+        <Route path="/watch/:manifestId" component={VideoViewer} />
+        <Redirect from="/" to="/videos" />
+        <Redirect from="*" to="/videos" />
+      </Content>
+    </Main>
+  </Layout>
 )
 
-/*
-  Enable Hot Module Reload using `react-hot-loader` here
-  We enable it here since App is the main root component
-  No need to use it anywhere else, it sould work for all
-  child components
-*/
-export default hot(module)(App)
+export default App

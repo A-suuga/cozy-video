@@ -43,7 +43,7 @@
   },
   "indentPref": {
     "expect": 4,
-    "error": true
+    "error": false
   },
   "leadingZero": {
     "expect": "never",
