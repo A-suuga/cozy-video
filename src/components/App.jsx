@@ -1,28 +1,46 @@
 /* global */
 
 import React from 'react'
-import { Layout, Main, Content, Sidebar } from 'cozy-ui/react'
-import { Route, Redirect } from 'react-router'
+import ReactHintFactory from 'react-hint'
+import 'react-hint/css/index.css'
+import {
+  Alerter,
+  Layout,
+  Main,
+  Content,
+  Sidebar,
+  IconSprite
+} from 'cozy-ui/react'
+import ErrorBoundary, { Error } from 'components/ErrorBoundary'
+import { hasParameter } from 'utils/qs'
 
 import Nav from 'components/Nav'
-import Videos from 'components/Videos'
-import VideoViewer from 'components/VideoViewer'
 
-const App = (
-  <Layout>
-    <Sidebar>
-      <Nav />
-    </Sidebar>
+const ReactHint = ReactHintFactory(React)
 
-    <Main>
-      <Content className="app-content">
-        <Route path="/videos" component={Videos} />
-        <Route path="/watch/:manifestId" component={VideoViewer} />
-        <Redirect from="/" to="/videos" />
-        <Redirect from="*" to="/videos" />
-      </Content>
-    </Main>
-  </Layout>
-)
+const App = props => {
+  return (
+    <Layout>
+      <Sidebar>
+        <Nav />
+      </Sidebar>
+
+      <Main>
+        <Content>
+          {hasParameter(props.location.query, 'error') ? (
+            <Error />
+          ) : (
+            <ErrorBoundary>{props.children}</ErrorBoundary>
+          )}
+        </Content>
+      </Main>
+
+      <ReactHint />
+
+      <IconSprite />
+      <Alerter />
+    </Layout>
+  )
+}
 
 export default App
