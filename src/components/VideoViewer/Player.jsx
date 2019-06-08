@@ -38,18 +38,18 @@ class Player extends Component {
       domain: uri,
       token: token.token
     }
-    var player = new shaka.Player(cozyInfo, this.video)
+    this.player = new shaka.Player(cozyInfo, this.video)
     // Listen for error events.
-    player.addEventListener('error', this.onErrorEvent)
+    this.player.addEventListener('error', this.onErrorEvent)
 
     // Player configuration
-    player.configure('preferredAudioLanguage', 'en')
-    player.configure('preferredTextLanguage', 'fr')
-    player.configure('streaming.alwaysStreamText', true)
+    this.player.configure('preferredAudioLanguage', 'en')
+    this.player.configure('preferredTextLanguage', 'fr')
+    this.player.configure('streaming.alwaysStreamText', true)
 
     // Try to load a manifest.
     // This is an asynchronous process.
-    player.load(this.manifestUri).catch(this.onError) // onError is executed if the asynchronous load fails.
+    this.player.load(this.manifestUri).catch(this.onError) // onError is executed if the asynchronous load fails.
   }
 
   onErrorEvent(event) {
@@ -68,6 +68,10 @@ class Player extends Component {
   }
 
   render() {
+    // Reload player with new manifest
+    this.player && this.player.load(this.manifestUri).catch(this.onError)
+    // eslint-disable-next-line no-console
+    console.warn('Player Manifest: ', this.manifestUri)
     return (
       <video
         ref={c => {
