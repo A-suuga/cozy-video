@@ -20,7 +20,7 @@
     "pretest": "yarn lint",
     "test": "cozy-scripts test --verbose --coverage",
     "cozyPublish": "git fetch origin ${DEPLOY_BRANCH:-build}:${DEPLOY_BRANCH:-build} && cozy-scripts publish --token $REGISTRY_TOKEN --build-commit $(git rev-parse ${DEPLOY_BRANCH:-build})",
-    "buildShaka": "if [ ! -d  'node_modules/shaka-player/dist' ]; then mkdir 'node_modules/shaka-player/dist'; fi; python node_modules/shaka-player/build/build.py --nodemo +@complete -@offline"
+    "buildShaka": "if [ ! -d  'node_modules/shaka-player/dist' ]; then mkdir 'node_modules/shaka-player/dist'; fi; python node_modules/shaka-player/build/build.py +@complete -@offline && python node_modules/shaka-player/build/compile_less.py"
   },
   "repository": {
     "type": "git",
@@ -118,7 +118,7 @@
     "redux-logger": "3.0.6",
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
-    "shaka-player": "A-suuga/shaka-player#cozy",
+    "shaka-player": "A-suuga/shaka-player",
     "string-replace-webpack-plugin": "0.1.3",
     "stylint": "1.5.9",
     "stylus": "0.54.5",
