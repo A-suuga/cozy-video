@@ -7,9 +7,9 @@ class Player extends Component {
   constructor(props, context) {
     super(props, context)
     // TODO remove 'http:' properly
-    this.manifestUri = props.manifestUri.slice(5)
+    // this.manifestUri = props.manifestUri.slice(5)
     // TODO remove 'https:' properly
-    // this.manifestUri = props.manifestUri.slice(6)
+    this.manifestUri = props.manifestUri.slice(6)
     const { client } = context
     if (!props.manifestUri) {
       throw new Error('Empty Manifest Uri')
@@ -34,14 +34,14 @@ class Player extends Component {
   }
 
   initPlayer() {
-    const token = this.client.getClient().token
+    const token = this.client.getStackClient().getAccessToken()
     // TODO Remove 'http://' properly
-    const uri = this.client.getClient().uri.slice(7)
+    // const uri = this.client.getStackClient().uri.slice(7)
     // TODO Remove 'http://' properly
-    // const uri = this.client.getClient().uri.slice(8)
+    const uri = this.client.getStackClient().uri.slice(8)
     const cozyInfo = {
       domain: uri,
-      token: token.token
+      token: token
     }
     let controls
     this.player = new shaka.Player(cozyInfo, this.video)
@@ -55,6 +55,18 @@ class Player extends Component {
     // this.player.configure('preferredAudioLanguage', 'en')
     // this.player.configure('preferredTextLanguage', 'fr')
     // this.player.configure('streaming.alwaysStreamText', true)
+
+    this.player
+      .getNetworkingEngine()
+      .registerRequestFilter(function(type, request) {
+        if (type == shaka.net.NetworkingEngine.RequestType.SEGMENT) {
+          // This is the specific header name and value the server wants:
+          request.headers['Accept'] = 'application/json'
+          request.headers['Authorization'] = 'Bearer ' + cozyInfo.token
+          request.headers['Content-Type'] = 'application/json'
+          request.allowCrossSiteCredentials = 'true'
+        }
+      })
 
     // Try to load a manifest.
     // This is an asynchronous process.
