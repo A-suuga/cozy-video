@@ -51,10 +51,14 @@ class Player extends Component {
     controls = this.ui.getControls()
     controls.addEventListener('error', this.onUIErrorEvent)
 
-    // Player configuration
-    // this.player.configure('preferredAudioLanguage', 'en')
-    // this.player.configure('preferredTextLanguage', 'fr')
-    // this.player.configure('streaming.alwaysStreamText', true)
+    // Player buffering configuration
+    this.player.configure({
+      streaming: {
+        bufferingGoal: 30,
+        rebufferingGoal: 2,
+        bufferBehind: 30
+      }
+    })
 
     this.player
       .getNetworkingEngine()
@@ -96,8 +100,6 @@ class Player extends Component {
   render() {
     // Reload player with new manifest
     this.player && this.player.load(this.manifestUri).catch(this.onError)
-    // eslint-disable-next-line no-console
-    console.warn('Player Manifest: ', this.manifestUri)
     return (
       <div
         ref={c => {
