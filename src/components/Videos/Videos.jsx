@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { IntentOpener } from 'cozy-ui/react'
+// import { IntentOpener } from 'cozy-ui/react'
+import { IntentIframe } from 'cozy-ui/react'
 import { Intents } from 'cozy-interapp'
 // import styles from './AugmentedModal'
 
@@ -45,22 +46,35 @@ class Videos extends Component {
     //     />
     //   </Panel.Main>
     // )
+    // return (
+    //   <IntentOpener
+    //     onComplete={file => {
+    //       // eslint-disable-next-line no-console
+    //       console.warn('Response: ', file)
+    //       this.props.router.push(`/watch/${file.id}`)
+    //     }}
+    //     onDismiss={() => alert('intent has been dismissed !')}
+    //     action="PICK"
+    //     doctype="io.cozy.files"
+    //     options={{ exposeIntentFrameRemoval: false }}
+    //     create={this.intents.create}
+    //     size={'xlarge'}
+    //   >
+    //     <button>Open video...</button>
+    //   </IntentOpener>
+    // )
     return (
-      <IntentOpener
-        onComplete={file => {
-          // eslint-disable-next-line no-console
-          console.warn('Response: ', file)
-          this.props.router.push(`/watch/${file.id}`)
-        }}
-        onDismiss={() => alert('intent has been dismissed !')}
+      <IntentIframe
         action="PICK"
-        doctype="io.cozy.files"
-        options={{ exposeIntentFrameRemoval: false }}
         create={this.intents.create}
-        size={'xlarge'}
-      >
-        <button>Open video...</button>
-      </IntentOpener>
+        data={{ exposeIntentFrameRemoval: false }}
+        type="io.cozy.files"
+        onCancel={() => alert('intent cancelled')}
+        onError={error =>
+          alert('intent has failed with error: ' + error.message)
+        }
+        onTerminate={file => this.props.router.push(`/watch/${file.id}`)}
+      />
     )
   }
 }

@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { IntentOpener } from 'cozy-ui/react'
-import { Intents } from 'cozy-interapp'
 import PropTypes from 'prop-types'
 
 import Spinner from 'cozy-ui/react/Spinner'
@@ -19,7 +17,6 @@ class VideoViewer extends Component {
     this.client = client
     this.manifestId = props.routeParams.manifestId
     this.state = { videoName: null, manifestLink: null }
-    this.intents = new Intents({ client: this.context.client })
   }
 
   componentDidMount() {
@@ -47,23 +44,6 @@ class VideoViewer extends Component {
   render() {
     return (
       <div>
-        <IntentOpener
-          onComplete={file => {
-            this.props.router.push(`/watch/${file.id}`)
-            this.setState({
-              videoName: file.id,
-              manifestLink: `http://${file.url}`
-            })
-          }}
-          onDismiss={() => {}}
-          action="PICK"
-          doctype="io.cozy.files"
-          options={{ exposeIntentFrameRemoval: false }}
-          create={this.intents.create}
-          size={'xlarge'}
-        >
-          <button>Open video...</button>
-        </IntentOpener>
         {this.state.videoName !== null && this.state.manifestLink !== null ? (
           <div>
             <h2>{this.state.videoName}</h2>
