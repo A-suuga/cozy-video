@@ -100,6 +100,8 @@ class Player extends Component {
   render() {
     // Reload player with new manifest
     this.player && this.player.load(this.manifestUri).catch(this.onError)
+    // eslint-disable-next-line no-console
+    console.warn('Player Manifest: ', this.manifestUri)
     return (
       <div
         ref={c => {
