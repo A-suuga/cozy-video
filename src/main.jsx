@@ -9,6 +9,7 @@ import { render } from 'react-dom'
 
 import { setupHistory } from 'utils/history'
 import { getClient } from 'ducks/client'
+import 'cozy-ui/transpiled/react/stylesheet.css'
 
 let store, client, history, lang, root
 

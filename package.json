@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "scripts": {
     "build": "yarn build:browser",
+    "build:production": "yarn build:browser:production",
     "build:browser": "NODE_ENV=${NODE_ENV:-browser:development} npm run commons:build",
+    "build:browser:production": "NODE_ENV=${NODE_ENV:-browser:production} npm run commons:build",
     "commons:build": "webpack --config webpack.config.js --bail",
     "commons:watch": "webpack --config webpack.config.js --watch --progress",
     "commons:watch:hot": "HOT_RELOAD=1 webpack-dev-server --progress --config webpack.config.js --port 8282 --inline --hot",
@@ -20,7 +22,7 @@
     "pretest": "yarn lint",
     "test": "cozy-scripts test --verbose --coverage",
     "cozyPublish": "git fetch origin ${DEPLOY_BRANCH:-build}:${DEPLOY_BRANCH:-build} && cozy-scripts publish --token $REGISTRY_TOKEN --build-commit $(git rev-parse ${DEPLOY_BRANCH:-build})",
-    "buildShaka": "if [ ! -d  'node_modules/shaka-player/dist' ]; then mkdir 'node_modules/shaka-player/dist'; fi; python node_modules/shaka-player/build/build.py +@complete -@offline && python node_modules/shaka-player/build/compile_less.py"
+    "buildShaka": "if [ ! -d  'node_modules/shaka-player/dist' ]; then mkdir 'node_modules/shaka-player/dist'; fi; python node_modules/shaka-player/build/build.py +@complete -@offline && python node_modules/shaka-player/build/compile_less.py && cp node_modules/shaka-player/ui/MaterialIcons-Regular.woff2 node_modules/shaka-player/dist/"
   },
   "repository": {
     "type": "git",
